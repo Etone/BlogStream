@@ -50,7 +50,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-social-twitter</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>de.hse.blogstream</groupId>
+			<artifactId>webpage</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
