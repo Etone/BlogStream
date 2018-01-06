@@ -1,0 +1,9 @@
+spring:
+  application:
+    name:
+      blogstream-reddit
+server:
+  port: 12128
+security:
+ basic:
+  enabled: false
