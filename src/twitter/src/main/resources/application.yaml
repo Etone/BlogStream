@@ -1,0 +1,10 @@
+spring:
+  social:
+    twitter:
+      app-id: k8pvnorbnuQIRf2xvEi88QAUQ
+      app-secret: xuLvWPUbETv8yyL9mMLOjesnzsBH1HXHAXGDHPtsuZ4kelfKcv
+  application:
+    name: blogstream-twitter
+server:
+  port: 0
+
