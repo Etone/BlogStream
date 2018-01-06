@@ -10,15 +10,19 @@ import javax.inject.Inject;
 @Controller
 public class AuthController {
 
+    private final ConnectionRepository repository;
+    private final Twitter twitter;
+
     @Inject
     public AuthController(Twitter twitter, ConnectionRepository repository){
-        DataAccessRepos.setRepos(new DataAccessRepos(twitter, repository));
+        this.twitter = twitter;
+        this.repository = repository;
 
     }
 
     @GetMapping("/auth")
     public String auth(){
-        if(DataAccessRepos.getRepos().getRepository().findPrimaryConnection(Twitter.class) == null){
+        if(repository.findPrimaryConnection(Twitter.class) == null){
             return "redirect:/connect/twitter";
         } else {
             return "twitterConnected";

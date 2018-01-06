@@ -8,6 +8,8 @@ eureka:
     fetch-registry: false
     service-url:
       default-url: http://${eureka.instance.hostname}:${server.port}/eureka/
+    server:
+      enable-self-preservation: false
 management:
   security:
     enabled: false

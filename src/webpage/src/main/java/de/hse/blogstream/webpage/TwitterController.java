@@ -40,7 +40,7 @@ public class TwitterController {
     @GetMapping("")
     public String twitter(){
         if(isAuthenticated){
-            return "redirect:/twitter/posts";
+            return "redirect:/twitter/post";
         } else {
             return "redirect:/twitter/auth";
         }
@@ -55,7 +55,7 @@ public class TwitterController {
     @GetMapping("/post")
     public String posts(Model m){
         List<DisplayPost> displayable = template.getForObject(twitterURL() + "data/posts", (Class<List<DisplayPost>>)(Object)List.class);
-        m.addAllAttributes(displayable);
+        m.addAttribute("displayable", displayable);
         return "twitter";
     }
 }
