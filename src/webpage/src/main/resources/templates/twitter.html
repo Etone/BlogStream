@@ -6,6 +6,16 @@
 </head>
 <body>
 <h3>Blogstream Twitter Service</h3>
-<p>Application testing</p>
+<p>List of Posts:</p>
+<ol>
+<th:block th:each="post : ${displayable}">
+    <li>
+        <ul>
+            <li th:text="${post.fromUser}"></li>
+            <li th:text="${post.text}"></li>
+        </ul>
+    </li>
+</th:block>
+</ol>
 </body>
 </html>

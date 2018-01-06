@@ -8,23 +8,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.inject.Inject;
 
 @Controller
-public class AccessController {
-
-    private Twitter twitter;
-    private ConnectionRepository repository;
+public class AuthController {
 
     @Inject
-    public AccessController(Twitter twitter, ConnectionRepository repository){
-        this.twitter = twitter;
-        this.repository = repository;
+    public AuthController(Twitter twitter, ConnectionRepository repository){
+        DataAccessRepos.setRepos(new DataAccessRepos(twitter, repository));
+
     }
 
     @GetMapping("/auth")
     public String auth(){
-        if(repository.findPrimaryConnection(Twitter.class) == null){
+        if(DataAccessRepos.getRepos().getRepository().findPrimaryConnection(Twitter.class) == null){
             return "redirect:/connect/twitter";
         } else {
             return "twitterConnected";
         }
     }
+
 }
