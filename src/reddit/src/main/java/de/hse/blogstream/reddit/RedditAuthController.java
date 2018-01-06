@@ -15,21 +15,14 @@ import java.io.IOException;
 import java.util.Arrays;
 
 @Controller
-@RequestMapping("/reddit")
-public class RedditController {
+public class RedditAuthController{
 
     @Autowired
     private OAuth2RestTemplate redditRestTemplate;
 
-    @RequestMapping("")
-    public String checkIfTokenAvailable()
-    {
 
-        return "auth";
-    }
-
-    @RequestMapping("/auth")
-    public String getToken() {
+    @RequestMapping("/reddit/authenticate")
+    public String getAuthToken() {
         JsonNode node = redditRestTemplate.getForObject(
                 "https://oauth.reddit.com/api/v1/me", JsonNode.class);
         UsernamePasswordAuthenticationToken auth =
@@ -38,14 +31,7 @@ public class RedditController {
                         Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
 
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return "redirect:BetterEveryLoop";
-    }
-
-    @RequestMapping("/BetterEveryLoop")
-    public JsonNode getSubredditPosts()
-    {
-        JsonNode str = redditRestTemplate.getForObject("https://oauth.reddit.com/r/Bettereveryloop/hot", JsonNode.class);
-        return str;
+        return "redirect:user";
     }
 
 }
