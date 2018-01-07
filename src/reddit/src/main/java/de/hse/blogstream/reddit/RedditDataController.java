@@ -4,22 +4,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import de.hse.blogstream.webpage.DisplayPost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reddit")
+@RequestMapping("/redditdata")
 public class RedditDataController {
 
     @Autowired
     private OAuth2RestTemplate redditRestTemplate;
 
-    @RequestMapping("/user")
+    @GetMapping("/user")
     public String getUserName()
     {
         JsonNode userData = redditRestTemplate.getForObject("https://oauth.reddit.com/api/v1/me", JsonNode.class);
@@ -28,19 +25,21 @@ public class RedditDataController {
         {
             name = userData.findValue("name");
         }
+        System.out.println(name);
        return name.toString();
     }
 
-    @RequestMapping("/subreddits")
+    @GetMapping("/subreddits")
     public List<String> getSubscribedSubreddits()
     {
         JsonNode subredditsJson = redditRestTemplate.getForObject("https://oauth.reddit.com/subreddits/mine/subscriber", JsonNode.class);
         List<String> subredditNames = subredditsJson.findValuesAsText("display_name_prefixed");
 
+        System.out.println(subredditNames);
         return subredditNames;
     }
 
-    @RequestMapping(value = "/subreddit/{subreddit}", method = RequestMethod.GET)
+    @GetMapping("/subreddit/{subreddit}")
     public List<DisplayPost> getPostsOfSubreddit(@PathVariable String subreddit)
     {
         JsonNode subredditJson = redditRestTemplate.getForObject("https://oauth.reddit.com/r/" + subreddit + "/hot", JsonNode.class);

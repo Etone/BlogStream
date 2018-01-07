@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blogstream Reddit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h3>Blogstream reddit Service</h3>
+<p>Hello, <b th:text="${username}"></b>. Here are the subreddits you're subscribed to:</p>
+
+<ol>
+<th:block th:each="subreddit : ${subreddits}">
+    <li>
+        <ul>
+            <li th:text="${subreddit}"></li>
+        </ul>
+    </li>
+</th:block>
+</ol>
+</body>
+</html>

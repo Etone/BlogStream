@@ -21,7 +21,7 @@ public class RedditAuthController{
     @Autowired
     private OAuth2RestTemplate redditRestTemplate;
 
-        @RequestMapping("/reddit/auth")
+        @RequestMapping("/auth")
         public String getAuthToken () throws InvalidRequestException {
         JsonNode node = redditRestTemplate.getForObject(
                 "https://oauth.reddit.com/api/v1/me", JsonNode.class);
@@ -31,6 +31,6 @@ public class RedditAuthController{
                         Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
 
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return "redirect:user";
+        return "";
     }
 }
