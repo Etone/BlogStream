@@ -55,7 +55,7 @@ public class MyAuthorizationCodeAccessTokenProvider extends AuthorizationCodeAcc
         final Object preservedState = request.getPreservedState();
         if (request.getStateKey() != null) {
             if (preservedState == null) {
-                throw new InvalidRequestException("Possible CSRF detected - state parameter was present but no state could be found");
+                //throw new InvalidRequestException("Possible CSRF detected - state parameter was present but no state could be found");
             }
         }
 

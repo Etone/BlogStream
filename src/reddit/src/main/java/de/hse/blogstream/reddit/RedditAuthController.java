@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.common.exceptions.InvalidRequestException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +21,8 @@ public class RedditAuthController{
     @Autowired
     private OAuth2RestTemplate redditRestTemplate;
 
-
-    @RequestMapping("/reddit/authenticate")
-    public String getAuthToken() {
+        @RequestMapping("/reddit/auth")
+        public String getAuthToken () throws InvalidRequestException {
         JsonNode node = redditRestTemplate.getForObject(
                 "https://oauth.reddit.com/api/v1/me", JsonNode.class);
         UsernamePasswordAuthenticationToken auth =
@@ -33,5 +33,6 @@ public class RedditAuthController{
         SecurityContextHolder.getContext().setAuthentication(auth);
         return "redirect:user";
     }
+
 
 }

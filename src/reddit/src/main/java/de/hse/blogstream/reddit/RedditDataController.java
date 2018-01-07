@@ -23,8 +23,12 @@ public class RedditDataController {
     public String getUserName()
     {
         JsonNode userData = redditRestTemplate.getForObject("https://oauth.reddit.com/api/v1/me", JsonNode.class);
-        String name = userData.findValue("display_name_prefixed").toString();
-       return name;
+        JsonNode name = userData.findValue("display_name_prefixed");
+        if(name == null)
+        {
+            name = userData.findValue("name");
+        }
+       return name.toString();
     }
 
     @RequestMapping("/subreddits")

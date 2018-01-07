@@ -3,7 +3,7 @@ spring:
     name:
       blogstream-reddit
 server:
-  port: 12128
+  port: 12129
 security:
  basic:
   enabled: false
