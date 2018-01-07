@@ -33,6 +33,4 @@ public class RedditAuthController{
         SecurityContextHolder.getContext().setAuthentication(auth);
         return "redirect:user";
     }
-
-
 }
