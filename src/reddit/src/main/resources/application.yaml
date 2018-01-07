@@ -5,5 +5,5 @@ spring:
 server:
   port: 12129
 security:
- basic:
-  enabled: false
+  basic:
+    enabled: false
