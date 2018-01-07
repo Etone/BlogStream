@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blogstream Reddit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>List of posts for subreddit <b th:text="${subredditname}"></b></p>
+<ol>
+    <th:block th:each="post : ${posts}">
+        <li>
+            <ul>
+                <li th:text="${post.fromUser}"></li>
+                <li th:text="${post.text}"></li>
+                <a th:href="${post.url}"><li th:text="${post.url}"></li></a>
+            </ul>
+        </li>
+        <p></p>
+    </th:block>
+</ol>
+</body>
+</html>

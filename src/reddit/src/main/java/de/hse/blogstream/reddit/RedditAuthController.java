@@ -1,6 +1,7 @@
 package de.hse.blogstream.reddit;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import de.hse.blogstream.webpage.DisplayPost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,11 +12,13 @@ import org.springframework.security.oauth2.common.exceptions.InvalidRequestExcep
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,4 +57,34 @@ public class RedditAuthController{
         return "subreddits";
     }
 
+    @GetMapping("/subreddit/r/{subreddit}")
+    public String getPostsOfSubreddit(@PathVariable String subreddit, Model m)
+    {
+        JsonNode subredditJson = redditRestTemplate.getForObject("https://oauth.reddit.com/r/" + subreddit + "/hot", JsonNode.class);
+        JsonNode posts = subredditJson.findValue("data").findValue("children");
+        List<DisplayPost> displayPosts = extractAndFormatPostsOfASub(posts);
+
+        m.addAttribute("posts", displayPosts);
+        m.addAttribute("subredditname", "/r/" +subreddit);
+        return "posts";
+    }
+
+    public List<DisplayPost> extractAndFormatPostsOfASub(JsonNode subredditPosts) {
+        int numberOfPosts = subredditPosts.size();
+        List<DisplayPost> posts = new ArrayList<>();
+        for (int i = 0; i < numberOfPosts; i++) {
+            JsonNode current = subredditPosts.get(i).get("data");
+
+            String url = "https://www.reddit.com" + current.findValue("permalink").toString();
+            url = url.replace("\"", "");
+
+            DisplayPost temp =
+                    new DisplayPost(
+                            current.findValue("title").toString(),
+                            current.findValue("author").toString(),
+                            url);
+            posts.add(temp);
+        }
+        return posts;
+    }
 }

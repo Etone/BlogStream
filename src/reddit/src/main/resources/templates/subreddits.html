@@ -12,7 +12,7 @@
 <th:block th:each="subreddit : ${subreddits}">
     <li>
         <ul>
-            <li th:text="${subreddit}"></li>
+            <a th:href="@{/subreddit/{sub}(sub=${subreddit})}"> <li th:text="${subreddit}"></li></a>
         </ul>
     </li>
 </th:block>
