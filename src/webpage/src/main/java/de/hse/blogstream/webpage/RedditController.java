@@ -30,7 +30,6 @@ public class RedditController {
         return instance.getHomePageUrl();
     }
 
-
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();
@@ -50,20 +49,14 @@ public class RedditController {
     @GetMapping("/auth")
     public String auth(){
         isAuthenticated = true;
-        return "redirect:" + redditUrl() + "auth";
-    }
-
-    @GetMapping("/gottoken")
-    public String redirectToSubreddits()
-    {
-        return "redirect:/reddit/subreddits";
+        return "redirect:" + redditUrl() + "reddit/auth";
     }
 
     @GetMapping("/subreddits")
     public String subreddits(Model m){
-        List<String> subreddits = redditTemplate.getForObject(redditUrl() + "redditdata/subreddits", (Class<List<String>>)(Object)List.class);
+        List<String> subreddits = redditTemplate.getForObject(redditUrl() + "reddit/subreddits", (Class<List<String>>)(Object)List.class);
         m.addAttribute("subreddits", subreddits);
-        String user = redditTemplate.getForObject(redditUrl() + "redditdata/user", String.class);
+        String user = redditTemplate.getForObject(redditUrl() + "reddit/user", String.class);
         m.addAttribute("username", user);
         System.out.println(subreddits);
         System.out.println(user);
@@ -73,7 +66,7 @@ public class RedditController {
     @GetMapping("/subreddit/{subredditname}")
     public String postsOfSubreddit(@PathVariable String subredditname, Model m)
     {
-        List<DisplayPost> posts = redditTemplate.getForObject(redditUrl() + "redditdata/subreddit/" + subredditname, (Class<List<DisplayPost>>)(Object)List.class);
+        List<DisplayPost> posts = redditTemplate.getForObject(redditUrl() + "reddit/subreddit/" + subredditname, (Class<List<DisplayPost>>)(Object)List.class);
         m.addAttribute("posts", posts);
         return "redditposts";
     }
