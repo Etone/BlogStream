@@ -25,7 +25,7 @@ public class AuthController {
         if(repository.findPrimaryConnection(Twitter.class) == null){
             return "redirect:/connect/twitter";
         } else {
-            return "twitterConnected";
+            return "connect/twitterConnected";
         }
     }
 
